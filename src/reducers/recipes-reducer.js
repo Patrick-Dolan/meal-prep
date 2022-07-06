@@ -7,7 +7,7 @@ const defaultState = {
 }
 
 
-export default (state = defaultState, action) => {
+const recipeReducer = (state = defaultState, action) => {
   switch (action.type) {
     case constants.REQUEST_RECIPES:
       return Object.assign({}, state, {
@@ -27,3 +27,5 @@ export default (state = defaultState, action) => {
       return state;
   }
 };
+
+export default recipeReducer;

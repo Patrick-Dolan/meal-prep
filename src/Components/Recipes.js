@@ -1,27 +1,41 @@
-const options = {
-  method: 'GET',
-	headers: {
-		'X-RapidAPI-Key': process.env.REACT_APP_TASTY_API_KEY,
-		'X-RapidAPI-Host': process.env.REACT_APP_TASTY_API_HOST
-	}
-}
-
-const makeApiCall = () => {
-  fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20', options)
-    .then(response => response.json())
-    .then(response => console.log(response))
-    .catch(err => console.error(err));
-}
+import { useEffect } from "react";
+import { useSelector, useDispatch } from "react-redux";
+import { makeRecipeApiCall } from "./../actions/index";
 
 const Recipes = () => {
+  const dispatch = useDispatch();
+  const error = useSelector(state => state.error);
+  const isLoaded = useSelector(state => state.isLoaded);
+  const recipes = useSelector(state => state.recipes);
   
-  
-  return(
-    <>
-      <h3>Tasty Recipes</h3>
-      <hr />
-    </>
-  );
+
+  //TODO setup a button to load recipes cause useEffect will use up all requests too quickly
+  // useEffect(() => {
+  //   dispatch(makeRecipeApiCall());
+  // }, [dispatch]);
+
+  // const handleRecipeButtonClick = () => {
+  //   dispatch(makeRecipeApiCall());
+  // }
+
+  if (error) {
+    return <>Error: {error.message}</>
+  } else if (isLoaded) {
+    return <>Loading...</>
+  } else {
+    return(
+      <>
+        <h3>Tasty Recipes</h3>
+        <hr />
+        {recipes.map((recipe, index) =>
+          <article>
+            <p><strong>{recipe.name}</strong></p>
+            <p>{recipe.description}</p>
+          </article>
+        )}
+      </>
+    );
+  }
 }
 
 export default Recipes;
