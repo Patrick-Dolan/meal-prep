@@ -34,7 +34,7 @@ const Recipes = () => {
         <hr />
         <Grid container spacing={2}>
           {recipes.map((recipe, index) =>
-            <Grid item xs={6} md={4}>
+            <Grid item xs={12} sm={6} md={4}>
               <Box>
                 <Card key={recipe.id} variant="outlined">
                   <CardContent>
