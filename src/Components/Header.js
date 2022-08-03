@@ -1,7 +1,7 @@
 const Header = () => {
   return(
     <>
-      <h3>Main Header Component</h3>
+      <h1>Meal Prep</h1>
       <hr />
     </>
   );
