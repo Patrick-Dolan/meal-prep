@@ -1,7 +1,10 @@
 //import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeRecipeApiCall } from "./../actions/index";
-import { Button } from "@mui/material";
+// MUI Imports
+// import Button from "@mui/material/Button";
+// import Card from "@mui/material/Card";
+import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
 
 const Recipes = () => {
   const dispatch = useDispatch();
@@ -30,10 +33,15 @@ const Recipes = () => {
         <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
         {recipes.map((recipe, index) =>
-          <article>
-            <p><strong>{recipe.name}</strong></p>
-            <p>{recipe.description}</p>
-          </article>
+          <Box sx={{ minWidth: 275 }}>
+            <Card key={recipe.id} sx={{ minWidth: 275 }} variant="outlined">
+              <CardContent>
+                <Typography variant="h4">{recipe.name}</Typography>
+                <CardMedia component="img" height="194" src={`${recipe.thumbnail_url}`} alt={recipe.name} />
+                <Typography variant="body2">{recipe.description}</Typography>
+              </CardContent>
+            </Card>
+          </Box>
         )}
       </>
     );
