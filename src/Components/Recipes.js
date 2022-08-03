@@ -1,6 +1,7 @@
-import { useEffect } from "react";
+//import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeRecipeApiCall } from "./../actions/index";
+import { Button } from "@mui/material";
 
 const Recipes = () => {
   const dispatch = useDispatch();
@@ -26,7 +27,7 @@ const Recipes = () => {
     return(
       <>
         <h3>Tasty Recipes</h3>
-        <button onClick={handleRecipeButtonClick}>Load Recipes</button>
+        <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
         {recipes.map((recipe, index) =>
           <article>
