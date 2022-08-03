@@ -4,7 +4,7 @@ import { makeRecipeApiCall } from "./../actions/index";
 // MUI Imports
 // import Button from "@mui/material/Button";
 // import Card from "@mui/material/Card";
-import { Box, Button, Card, CardContent, CardMedia, Typography } from "@mui/material";
+import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 
 const Recipes = () => {
   const dispatch = useDispatch();
@@ -32,17 +32,21 @@ const Recipes = () => {
         <h3>Tasty Recipes</h3>
         <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
-        {recipes.map((recipe, index) =>
-          <Box sx={{ minWidth: 275 }}>
-            <Card key={recipe.id} sx={{ minWidth: 275 }} variant="outlined">
-              <CardContent>
-                <Typography variant="h4">{recipe.name}</Typography>
-                <CardMedia component="img" height="194" src={`${recipe.thumbnail_url}`} alt={recipe.name} />
-                <Typography variant="body2">{recipe.description}</Typography>
-              </CardContent>
-            </Card>
-          </Box>
-        )}
+        <Grid container spacing={2}>
+          {recipes.map((recipe, index) =>
+            <Grid item xs={6} md={4}>
+              <Box>
+                <Card key={recipe.id} variant="outlined">
+                  <CardContent>
+                    <Typography variant="h4">{recipe.name}</Typography>
+                    <CardMedia component="img" height="194" src={`${recipe.thumbnail_url}`} alt={recipe.name} />
+                    <Typography variant="body2">{recipe.description}</Typography>
+                  </CardContent>
+                </Card>
+              </Box>
+            </Grid>
+          )}
+        </Grid>
       </>
     );
   }
