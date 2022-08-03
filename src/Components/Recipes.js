@@ -14,9 +14,9 @@ const Recipes = () => {
   //   dispatch(makeRecipeApiCall());
   // }, [dispatch]);
 
-  // const handleRecipeButtonClick = () => {
-  //   dispatch(makeRecipeApiCall());
-  // }
+  const handleRecipeButtonClick = () => {
+    dispatch(makeRecipeApiCall());
+  }
 
   if (error) {
     return <>Error: {error.message}</>
@@ -26,6 +26,7 @@ const Recipes = () => {
     return(
       <>
         <h3>Tasty Recipes</h3>
+        <button onClick={handleRecipeButtonClick}>Load Recipes</button>
         <hr />
         {recipes.map((recipe, index) =>
           <article>
