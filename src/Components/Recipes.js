@@ -1,9 +1,6 @@
 //import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
 import { makeRecipeApiCall } from "./../actions/index";
-// MUI Imports
-// import Button from "@mui/material/Button";
-// import Card from "@mui/material/Card";
 import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 
 const Recipes = () => {
@@ -13,7 +10,7 @@ const Recipes = () => {
   const recipes = useSelector(state => state.recipes);
   
 
-  //TODO setup a button to load recipes cause useEffect will use up all requests too quickly
+  //TODO Use useEffect for updating on page load in future
   // useEffect(() => {
   //   dispatch(makeRecipeApiCall());
   // }, [dispatch]);
@@ -29,17 +26,17 @@ const Recipes = () => {
   } else {
     return(
       <>
-        <h3>Tasty Recipes</h3>
+        <h2>Tasty Recipes</h2>
         <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
         <Grid container spacing={2}>
           {recipes.map((recipe, index) =>
-            <Grid item xs={12} sm={6} md={4}>
+            <Grid item xs={12} sm={6} md={4} key={recipe.id}>
               <Box>
-                <Card key={recipe.id} variant="outlined">
+                <Card variant="outlined">
                   <CardContent>
                     <Typography variant="h4">{recipe.name}</Typography>
-                    <CardMedia component="img" height="194" src={`${recipe.thumbnail_url}`} alt={recipe.name} />
+                    <CardMedia component="img" height="194" src={`${recipe.thumbnail_url}`} alt={recipe.thumbnail_alt_text} />
                     <Typography variant="body2">{recipe.description}</Typography>
                   </CardContent>
                 </Card>
