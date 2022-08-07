@@ -1,8 +1,9 @@
+import ResponsiveAppBar from "./ResponsiveAppBar";
+
 const Header = () => {
   return(
     <>
-      <h1>Meal Prep</h1>
-      <hr />
+      <ResponsiveAppBar />
     </>
   );
 }
