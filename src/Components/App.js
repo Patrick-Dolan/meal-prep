@@ -1,11 +1,11 @@
 import Header from "./Header";
-import Recipes from "./Recipes";
+import BrowseRecipes from "./BrowseRecipes";
 
 function App() {
   return (
     <>
       <Header />
-      <Recipes />
+      <BrowseRecipes />
     </>
   );
 }

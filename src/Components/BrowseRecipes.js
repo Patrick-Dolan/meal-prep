@@ -1,9 +1,9 @@
 //import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeRecipeApiCall } from "./../actions/index";
+import { makeRecipeApiCall } from "../actions/index";
 import { Box, Button, Card, CardContent, CardMedia, Grid, Typography } from "@mui/material";
 
-const Recipes = () => {
+const BrowseRecipes = () => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.error);
   const isLoaded = useSelector(state => state.isLoaded);
@@ -26,7 +26,7 @@ const Recipes = () => {
   } else {
     return(
       <>
-        <h2>Tasty Recipes</h2>
+        <Typography variant="h3">Tasty Recipes</Typography>
         <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
         <Grid container spacing={2}>
@@ -49,4 +49,4 @@ const Recipes = () => {
   }
 }
 
-export default Recipes;
+export default BrowseRecipes;
