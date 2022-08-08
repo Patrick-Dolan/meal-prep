@@ -13,7 +13,7 @@ import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
 import TakeoutDining from '@mui/icons-material/TakeoutDining';
 
-const pages = ["My Recipes", "Browse"];
+const pages = ["Meal Plans", "My Recipes", "Browse"];
 const settings = ['Account', 'Dashboard', 'Logout'];
 
 const ResponsiveAppBar = () => {
