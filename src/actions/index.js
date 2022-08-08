@@ -24,7 +24,7 @@ export const getRecipesFailure = (error) => ({
 
 export const makeRecipeApiCall = () => {
   return dispatch => {
-    dispatch(requestRecipes);
+    dispatch(requestRecipes());
     return fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=100&tags=lunch', options)
       .then(response => response.json())
       .then(jsonifiedReponse => {
@@ -38,12 +38,10 @@ export const makeRecipeApiCall = () => {
 
 const sortRecipes = (recipes) => {
   const sortedRecipes = [];
-  
   recipes.forEach(recipe => {
-    if (recipe.description.length != 0) {
+    if (recipe.description.length !== 0) {
       sortedRecipes.push(recipe);
     }
   });
-  
   return sortedRecipes;
 }

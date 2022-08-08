@@ -3,15 +3,16 @@ import { useSelector, useDispatch } from "react-redux";
 import { makeRecipeApiCall } from "../actions/index";
 import { Button, Grid, Typography } from "@mui/material";
 import RecipeCard from "./RecipeCard";
+import RecipeCardSkeleton from "./RecipeCardSkeleton";
 
 const BrowseRecipes = () => {
   const dispatch = useDispatch();
   const error = useSelector(state => state.error);
-  const isLoaded = useSelector(state => state.isLoaded);
+  const isLoading = useSelector(state => state.isLoading);
   const recipes = useSelector(state => state.recipes);
-  
 
-  //TODO Use useEffect for updating on page load in future
+  const skeletonCount = 6;
+  
   // useEffect(() => {
   //   dispatch(makeRecipeApiCall());
   // }, [dispatch]);
@@ -22,8 +23,20 @@ const BrowseRecipes = () => {
 
   if (error) {
     return <>Error: {error.message}</>
-  } else if (isLoaded) {
-    return <>Loading...</>
+  } else if (isLoading) {
+    return (
+    <>
+      <Typography variant="h3">Tasty Recipes</Typography>
+      <hr />
+      <Grid container spacing={2}>
+        {[...Array(skeletonCount)].map((skeleton, key) => 
+          <Grid item xs={12} sm={6} md={4} key={key}>
+            <RecipeCardSkeleton skeleton={skeleton}  />
+          </Grid>
+        )}
+      </Grid>
+    </>
+    )
   } else {
     return(
       <>
