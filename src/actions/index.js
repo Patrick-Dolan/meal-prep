@@ -28,10 +28,22 @@ export const makeRecipeApiCall = () => {
     return fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=100&tags=lunch', options)
       .then(response => response.json())
       .then(jsonifiedReponse => {
-        dispatch(getRecipesSuccess(jsonifiedReponse.results))
+        dispatch(getRecipesSuccess(sortRecipes(jsonifiedReponse.results)))
       })
       .catch(error => {
         dispatch(getRecipesFailure(error));
       });
   }
+}
+
+const sortRecipes = (recipes) => {
+  const sortedRecipes = [];
+  
+  recipes.forEach(recipe => {
+    if (recipe.description.length != 0) {
+      sortedRecipes.push(recipe);
+    }
+  });
+  
+  return sortedRecipes;
 }
