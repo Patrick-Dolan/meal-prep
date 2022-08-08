@@ -25,7 +25,7 @@ export const getRecipesFailure = (error) => ({
 export const makeRecipeApiCall = () => {
   return dispatch => {
     dispatch(requestRecipes);
-    return fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=20', options)
+    return fetch('https://tasty.p.rapidapi.com/recipes/list?from=0&size=100&tags=lunch', options)
       .then(response => response.json())
       .then(jsonifiedReponse => {
         dispatch(getRecipesSuccess(jsonifiedReponse.results))
