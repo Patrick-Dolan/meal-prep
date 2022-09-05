@@ -1,13 +1,13 @@
-import Header from "./Header";
-import BrowseRecipes from "./BrowseRecipes";
+import ResponsiveAppBar from "./Components/navbar/ResponsiveAppBar";
+import BrowseRecipes from "./Components/browse/BrowseRecipes";
 import { Route, Routes } from "react-router";
-import MyRecipes from "./MyRecipes";
-import MealPlans from "./MealPlans";
+import MyRecipes from "./Components/my-recipes/MyRecipes";
+import MealPlans from "./Components/meal-plans/MealPlans";
 
 function App() {
   return (
     <>
-      <Header />
+      <ResponsiveAppBar />
       <Routes>
         <Route path="/" element={<BrowseRecipes />} />
         <Route path="Browse" element={<BrowseRecipes />} />

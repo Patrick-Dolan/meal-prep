@@ -1,9 +1,9 @@
 //import { useEffect } from "react";
 import { useSelector, useDispatch } from "react-redux";
-import { makeRecipeApiCall } from "../actions/index";
+import { makeRecipeApiCall } from "../../actions/index";
 import { Button, Grid, Typography } from "@mui/material";
-import RecipeCard from "./RecipeCard";
-import RecipeCardSkeleton from "./RecipeCardSkeleton";
+import RecipeCard from "../my-recipes/RecipeCard";
+import RecipeCardSkeleton from "../my-recipes/RecipeCardSkeleton";
 
 const BrowseRecipes = () => {
   const dispatch = useDispatch();
