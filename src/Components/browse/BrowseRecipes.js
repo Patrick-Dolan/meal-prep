@@ -20,7 +20,6 @@ const BrowseRecipes = () => {
   
   const skeletonCount = 6;
   
-  console.log("Api recipes: ", apiRecipes)
   // useEffect(() => {
   //   dispatch(makeRecipeApiCall());
   // }, [dispatch]);
