@@ -6,9 +6,7 @@
 
 ## Technologies Used
 
-* HTML
-* CSS & Bootstrap
-* Javascript
+* MaterialUI
 * React
 * NPM & Webpack
 
