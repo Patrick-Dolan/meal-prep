@@ -1,8 +1,8 @@
 //import { useEffect } from "react";
 import { useState } from "react";
 import { Button, Grid, Typography } from "@mui/material";
-import RecipeCard from "../../recipes/RecipeCard";
-import RecipeCardSkeleton from "../../recipes/RecipeCardSkeleton";
+import RecipeCard from "../recipes/RecipeCard";
+import RecipeCardSkeleton from "../recipes/RecipeCardSkeleton";
 
 // API call header details
 const options = {
