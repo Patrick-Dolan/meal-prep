@@ -15,6 +15,7 @@ import { Link } from "react-router-dom";
 import RegisterDialog from '../dialogs/RegisterDialog';
 import SigninDialog from "../dialogs/SigninDialog";
 import { useState } from "react";
+import { UserAuth } from '../../Contexts/AuthContext';
 
 const pages = ["Meal Plans", "My Recipes", "Browse"];
 
@@ -23,6 +24,7 @@ const Navbar = () => {
   const [anchorElUser, setAnchorElUser] = useState(null);
   const [registerOpen, setRegisterOpen] = useState(false);
   const [signinOpen, setSigninOpen] = useState(false);
+  const { user, logout } = UserAuth();
 
   const handleOpenNavMenu = (event) => {
     setAnchorElNav(event.currentTarget);
@@ -43,6 +45,15 @@ const Navbar = () => {
   const handleUserSigninClick = () => {
     setSigninOpen(true);
     setAnchorElUser(null);
+  };
+
+  const handleUserLogoutClick = async () => {
+    setAnchorElUser(null);
+    try {
+      await logout();
+    } catch (error) {
+      console.log(error.message)
+    }
   };
 
   const handleCloseUserMenu = () => {
@@ -142,14 +153,15 @@ const Navbar = () => {
               </Button>
             ))}
           </Box>
-
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
                 <Avatar alt="" src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            <Menu
+            {/* TODO refactor to render above? */}
+            {(user) ? (
+              <Menu
               sx={{ mt: '45px' }}
               id="menu-appbar"
               anchorEl={anchorElUser}
@@ -164,14 +176,36 @@ const Navbar = () => {
               }}
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
-            >
-              <MenuItem key="Register" onClick={handleUserRegisterClick}>
-                <Typography textAlign="center">Register</Typography>
-              </MenuItem>
-              <MenuItem key="Sign-in" onClick={handleUserSigninClick}>
-                <Typography textAlign="center">Sign-in</Typography>
-              </MenuItem>
-            </Menu>
+              >
+                <MenuItem key="Logout" onClick={handleUserLogoutClick}>
+                  <Typography textAlign="center">Logout</Typography>
+                </MenuItem>
+              </Menu>
+            ) : (
+              <Menu
+                sx={{ mt: '45px' }}
+                id="menu-appbar"
+                anchorEl={anchorElUser}
+                anchorOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                keepMounted
+                transformOrigin={{
+                  vertical: 'top',
+                  horizontal: 'right',
+                }}
+                open={Boolean(anchorElUser)}
+                onClose={handleCloseUserMenu}
+              >
+                <MenuItem key="Register" onClick={handleUserRegisterClick}>
+                  <Typography textAlign="center">Register</Typography>
+                </MenuItem>
+                <MenuItem key="Sign-in" onClick={handleUserSigninClick}>
+                  <Typography textAlign="center">Sign-in</Typography>
+                </MenuItem>
+              </Menu>
+            )}
           </Box>
         </Toolbar>
         <RegisterDialog 
