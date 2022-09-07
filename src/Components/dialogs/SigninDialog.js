@@ -31,7 +31,7 @@ const SigninDialog =(props) => {
               label="Email Address"
               type="email"
               fullWidth
-              variant="standard"
+              variant="filled"
             />
             <TextField
               autoFocus
@@ -40,7 +40,7 @@ const SigninDialog =(props) => {
               label="Password"
               type="password"
               fullWidth
-              variant="standard"
+              variant="filled"
             />
           </form>
         <Button 
