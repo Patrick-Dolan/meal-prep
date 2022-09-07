@@ -4,7 +4,7 @@ import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Typography } from '@mui/material';
+import { Grid, Typography } from '@mui/material';
 import { UserAuth } from '../../Contexts/AuthContext';
 
 const RegisterDialog =(props) => {
@@ -40,22 +40,55 @@ const RegisterDialog =(props) => {
             Create your account. It's free and only takes a minute.
           </Typography>
           <form ref={form} onSubmit={handleSubmit}>
-            <TextField
-              margin="dense"
-              id="email"
-              label="Email Address"
-              type="email"
-              fullWidth
-              variant="filled"
-            />
-            <TextField
-              margin="dense"
-              id="password"
-              label="Password"
-              type="password"
-              fullWidth
-              variant="filled"
-            />
+            <Grid container justifyContent={"center"} spacing={2}>
+              <Grid item>
+                <TextField
+                  autoFocus
+                  margin="dense"
+                  id="firstname"
+                  label="First Name"
+                  type="email"
+                  variant="filled"
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  margin="dense"
+                  id="lastname"
+                  label="Last Name"
+                  type="email"
+                  variant="filled"
+                  fullWidth
+                  required
+                />
+              </Grid>
+            </Grid>
+            <Grid container direction="column">
+              <Grid item>
+                <TextField
+                  margin="dense"
+                  id="email"
+                  label="Email Address"
+                  type="email"
+                  variant="filled"
+                  fullWidth
+                  required
+                />
+              </Grid>
+              <Grid item>
+                <TextField
+                  margin="dense"
+                  id="password"
+                  label="Password"
+                  type="password"
+                  variant="filled"
+                  fullWidth
+                  required
+                />
+              </Grid>
+            </Grid>
             <Button 
               type="submit"
               variant="contained"
