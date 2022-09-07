@@ -1,17 +1,28 @@
-import * as React from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
+import { UserAuth } from '../../Contexts/AuthContext';
+import { useRef } from "react";
 
 const SigninDialog =(props) => {
   const { open, setSigninOpen } = props;
+  const { signIn } = UserAuth();
+  const form = useRef();
 
-  const handleSigninClick = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setSigninOpen(false);
-    // TODO Add firebase sign in code here
-    alert("Sign-in clicked!")
+
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      await signIn(email, password);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
 
   const handleClose = () => {
@@ -23,11 +34,11 @@ const SigninDialog =(props) => {
       <Dialog open={open} onClose={handleClose}>
         <DialogTitle textAlign="center">Sign-in</DialogTitle>
         <DialogContent>
-          <form>
+          <form ref={form} onSubmit={handleSubmit}>
             <TextField
               autoFocus
               margin="dense"
-              id="name"
+              id="email"
               label="Email Address"
               type="email"
               fullWidth
@@ -42,15 +53,15 @@ const SigninDialog =(props) => {
               fullWidth
               variant="filled"
             />
+            <Button 
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{mt: "1em"}}
+            >
+              Sign in
+            </Button>
           </form>
-        <Button 
-          onClick={handleSigninClick}
-          variant="contained"
-          fullWidth
-          sx={{mt: "1em"}}
-        >
-          Register
-        </Button>
         </DialogContent>
       </Dialog>
     </div>
