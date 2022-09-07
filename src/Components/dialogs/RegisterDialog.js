@@ -1,20 +1,31 @@
-import * as React from 'react';
+import { useRef } from 'react';
 import Button from '@mui/material/Button';
 import TextField from '@mui/material/TextField';
 import Dialog from '@mui/material/Dialog';
 import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
-import { Grid, Typography } from '@mui/material';
+import { Typography } from '@mui/material';
+import { UserAuth } from '../../Contexts/AuthContext';
 
 const RegisterDialog =(props) => {
   const { open, setRegisterOpen } = props;
+  const { registerUser } = UserAuth();
+  const form = useRef();
 
-  const handleRegisterClick = () => {
+  const handleSubmit = async (e) => {
+    e.preventDefault();
     setRegisterOpen(false);
-    // TODO Add firebase register action
-    alert("Register clicked!")
 
-  };
+    const email = e.target.email.value;
+    const password = e.target.password.value;
+
+    try {
+      await registerUser(email, password)
+    } catch (error) {
+      // TODO Add snackbar for error and maybe success?
+      console.log(error.message);
+    }
+  }
 
   const handleClose = () => {
     setRegisterOpen(false);
@@ -28,30 +39,7 @@ const RegisterDialog =(props) => {
           <Typography variant="caption">
             Create your account. It's free and only takes a minute.
           </Typography>
-          <form>
-            <Grid container spacing={2}>
-              <Grid item>
-                <TextField
-                  autoFocus
-                  margin="dense"
-                  id="firstname"
-                  label="First Name"
-                  type="email"
-                  fullWidth
-                  variant="filled"
-                />
-              </Grid>
-              <Grid item>
-                <TextField
-                  margin="dense"
-                  id="lastname"
-                  label="Last Name"
-                  type="email"
-                  fullWidth
-                  variant="filled"
-                />
-              </Grid>
-            </Grid>
+          <form ref={form} onSubmit={handleSubmit}>
             <TextField
               margin="dense"
               id="email"
@@ -68,15 +56,15 @@ const RegisterDialog =(props) => {
               fullWidth
               variant="filled"
             />
+            <Button 
+              type="submit"
+              variant="contained"
+              fullWidth
+              sx={{mt: "1em"}}
+            >
+              Register
+            </Button>
           </form>
-        <Button 
-          onClick={handleRegisterClick}
-          variant="contained"
-          fullWidth
-          sx={{mt: "1em"}}
-        >
-          Register
-        </Button>
         </DialogContent>
       </Dialog>
     </div>
