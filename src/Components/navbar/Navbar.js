@@ -177,6 +177,14 @@ const Navbar = () => {
               open={Boolean(anchorElUser)}
               onClose={handleCloseUserMenu}
               >
+                <MenuItem key="Account">
+                  <Typography textAlign="center">
+                    {/* TODO change color to theme regular text color */}
+                    <Link style={{textDecoration: "none", color: "black"}} to={`/account`}>
+                      Account
+                    </Link>
+                  </Typography>
+                </MenuItem>
                 <MenuItem key="Logout" onClick={handleUserLogoutClick}>
                   <Typography textAlign="center">Logout</Typography>
                 </MenuItem>
