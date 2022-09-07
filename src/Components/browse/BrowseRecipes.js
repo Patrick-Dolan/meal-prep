@@ -1,6 +1,6 @@
 //import { useEffect } from "react";
 import { useState } from "react";
-import { Button, Grid, Typography } from "@mui/material";
+import { Button, Container, Grid, Typography } from "@mui/material";
 import RecipeCard from "../recipes/RecipeCard";
 import RecipeCardSkeleton from "../recipes/RecipeCardSkeleton";
 
@@ -20,9 +20,10 @@ const BrowseRecipes = () => {
   
   const skeletonCount = 6;
   
+  // USE BUTTON FOR TESTING TO STOP TOO MANY API CALLS
   // useEffect(() => {
-  //   dispatch(makeRecipeApiCall());
-  // }, [dispatch]);
+  //   makeRecipeApiCall();
+  // }, [apiRecipes]);
 
   const sortRecipes = (recipes) => {
     const sortedRecipes = [];
@@ -61,8 +62,8 @@ const BrowseRecipes = () => {
     return <>Error: {error.message}</>
   } else if (isLoading) {
     return (
-    <>
-      <Typography variant="h3">Tasty Recipes</Typography>
+    <Container sx={{mt: "1em"}}>
+      <Typography variant="h5">Tasty Recipes</Typography>
       <hr />
       <Grid container spacing={2}>
         {[...Array(skeletonCount)].map((skeleton, key) => 
@@ -71,11 +72,11 @@ const BrowseRecipes = () => {
           </Grid>
         )}
       </Grid>
-    </>
+    </Container>
     )
   } else {
     return(
-      <>
+      <Container sx={{mt: "1em"}}>
         <Typography variant="h3">Tasty Recipes</Typography>
         <Button variant="contained" onClick={handleRecipeButtonClick}>Load Recipes</Button>
         <hr />
@@ -89,7 +90,7 @@ const BrowseRecipes = () => {
           </Grid>
         ) : (null)
         }
-      </>
+      </Container>
     );
   }
 }
