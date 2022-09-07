@@ -4,19 +4,24 @@ import { Route, Routes } from "react-router";
 import MyRecipes from "./Components/my-recipes/MyRecipes";
 import MealPlans from "./Components/meal-plans/MealPlans";
 import { ThemeProvider } from "@mui/material/styles";
-import { theme } from "./theme/index"
+import { theme } from "./theme/index";
+import { AuthProvider } from "./Contexts/AuthContext";
 
 function App() {
+
+
   return (
-    <ThemeProvider theme={theme}>
-      <Navbar />
-      <Routes>
-        <Route path="/" element={<BrowseRecipes />} />
-        <Route path="Browse" element={<BrowseRecipes />} />
-        <Route path="My%20Recipes" element={<MyRecipes />} />
-        <Route path="Meal%20Plans" element={<MealPlans />} />
-      </Routes>
-    </ThemeProvider>
+    <AuthProvider>
+      <ThemeProvider theme={theme}>
+        <Navbar />
+        <Routes>
+          <Route path="/" element={<BrowseRecipes />} />
+          <Route path="Browse" element={<BrowseRecipes />} />
+          <Route path="My%20Recipes" element={<MyRecipes />} />
+          <Route path="Meal%20Plans" element={<MealPlans />} />
+        </Routes>
+      </ThemeProvider>
+    </AuthProvider>
   );
 }
 
