@@ -6,6 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Grid, Typography } from '@mui/material';
 import { UserAuth } from '../../Contexts/AuthContext';
+import { updateUserDBEntry } from "../../Firestore"
 
 const RegisterDialog =(props) => {
   const { open, setRegisterOpen } = props;
@@ -19,8 +20,14 @@ const RegisterDialog =(props) => {
     const email = e.target.email.value;
     const password = e.target.password.value;
 
+    const userDetails = {
+      firstName: e.target.firstname.value,
+      lastName: e.target.lastname.value
+    }
+
     try {
-      await registerUser(email, password)
+      const newUser = await registerUser(email, password)
+      await updateUserDBEntry(newUser, userDetails)
     } catch (error) {
       // TODO Add snackbar for error and maybe success?
       console.log(error.message);
@@ -47,7 +54,7 @@ const RegisterDialog =(props) => {
                   margin="dense"
                   id="firstname"
                   label="First Name"
-                  type="email"
+                  type="text"
                   variant="filled"
                   fullWidth
                   required
@@ -58,7 +65,7 @@ const RegisterDialog =(props) => {
                   margin="dense"
                   id="lastname"
                   label="Last Name"
-                  type="email"
+                  type="text"
                   variant="filled"
                   fullWidth
                   required
