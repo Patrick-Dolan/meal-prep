@@ -156,10 +156,9 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                <Avatar alt="" src="/static/images/avatar/2.jpg" />
+                <Avatar alt={(user?.firstName) ? `${user.firstName} ${user.lastName}` : ""} src="/static/images/avatar/2.jpg" />
               </IconButton>
             </Tooltip>
-            {/* TODO refactor to render above? */}
             {(user) ? (
               <Menu
               sx={{ mt: '45px' }}
@@ -186,7 +185,9 @@ const Navbar = () => {
                   </Typography>
                 </MenuItem>
                 <MenuItem key="Logout" onClick={handleUserLogoutClick}>
-                  <Typography textAlign="center">Logout</Typography>
+                  <Link style={{textDecoration: "none"}} to={`/`}>
+                    <Typography textAlign="center">Logout</Typography>
+                  </Link>
                 </MenuItem>
               </Menu>
             ) : (
