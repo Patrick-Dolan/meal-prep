@@ -10,35 +10,24 @@ export const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
 
   const [user, setUser] = useState({});
-  const [hasAddedDbData, setHasAddedDbData] = useState(false);
   
   useEffect(() => {
-    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
-      setUser(currentUser);
-    });
-
-    return () => {
-      unsubscribe();
-    }
-  }, []);
-
-  useEffect(() => {
-    const getAndMergeUserDbData = async () => {
-      const dbData = await getUserData(user);
+    const getAndMergeUserDbData = async (currentUser) => {
+      const dbData = await getUserData(currentUser);
       const updatedUser = {
-        ...user,
+        ...currentUser,
         ...dbData
       };
       setUser(updatedUser);
     };
-
-    if (user?.uid && !hasAddedDbData) {
-      getAndMergeUserDbData();
-      setHasAddedDbData(true);
+    const unsubscribe = onAuthStateChanged(auth, (currentUser) => {
+      setUser(currentUser);
+      getAndMergeUserDbData(currentUser);
+    });
+    return () => {
+      unsubscribe();
     }
-  }, [user, hasAddedDbData]);
-
-  
+  }, []);
 
   const registerUser = (email, password) => {
     return createUserWithEmailAndPassword(auth, email, password);
@@ -49,7 +38,6 @@ export const AuthProvider = ({children}) => {
   }
 
   const logout = async () => {
-    setHasAddedDbData(false);
     return signOut(auth);
   }
 
