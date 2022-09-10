@@ -13,6 +13,12 @@ export const theme = createTheme({
     background: {
       default: '#fffadd',
     },
+    typography: {
+      fontFamily: 'Droid Sans',
+      h1: {
+        fontSize: '5rem',
+      },
+    },
     divider: 'rgba(0,0,0,0.24)',
   },
 });
