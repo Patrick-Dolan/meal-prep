@@ -9,7 +9,7 @@ import { UserAuth } from '../../Contexts/AuthContext';
 import { updateUserDBEntry } from "../../Firestore"
 
 const RegisterDialog =(props) => {
-  const { open, setRegisterOpen } = props;
+  const { open, setRegisterOpen, successSnackbar, errorSnackbar, setErrorMessage } = props;
   const { registerUser } = UserAuth();
   const form = useRef();
 
@@ -28,9 +28,10 @@ const RegisterDialog =(props) => {
     try {
       const newUser = await registerUser(email, password)
       await updateUserDBEntry(newUser, userDetails)
+      successSnackbar();
     } catch (error) {
-      // TODO Add snackbar for error and maybe success?
-      console.log(error.message);
+      setErrorMessage(error.message);
+      errorSnackbar();
     }
   }
 
