@@ -6,7 +6,7 @@ import DialogContent from '@mui/material/DialogContent';
 import DialogTitle from '@mui/material/DialogTitle';
 import { Grid, Typography } from '@mui/material';
 import { UserAuth } from '../../Contexts/AuthContext';
-import { updateUserDBEntry } from "../../Firestore"
+import { updateUserDBEntry } from "../../firebasefunctions"
 
 const RegisterDialog =(props) => {
   const { open, setRegisterOpen, successSnackbar, errorSnackbar, setErrorMessage } = props;
