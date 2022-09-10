@@ -12,14 +12,16 @@ export const updateUserDBEntry = async (user, userDetails) => {
   await setDoc(docRef, payload);
 }
 
-// Get user data
+// Get User data
 export const getUserData = async (user) => {
-  const docRef = doc(db, "users", user.uid);
-  const docSnap = await getDoc(docRef);
-
-  if (docSnap.exists()) {
-    return docSnap.data();
-  } else {
-    console.log("No document found.");
+  if (user?.uid) {
+    const docRef = doc(db, "users", user.uid);
+    const docSnap = await getDoc(docRef);
+  
+    if (docSnap.exists()) {
+      return docSnap.data();
+    } else {
+      console.log("No document found.");
+    }
   }
 }
