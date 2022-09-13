@@ -1,5 +1,5 @@
 import { createContext, useContext, useEffect, useState } from "react";
-import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged } from 'firebase/auth';
+import { createUserWithEmailAndPassword, signInWithEmailAndPassword, signOut, onAuthStateChanged, updateProfile } from 'firebase/auth';
 import { auth } from "../firebase";
 import { getUserData } from "../firebasefunctions";
 
@@ -8,9 +8,10 @@ export const AuthContext = createContext();
 
 // Create provider to wrap app with
 export const AuthProvider = ({children}) => {
-
   const [user, setUser] = useState({});
   
+  // console.log("Current User: ", user)
+
   useEffect(() => {
     const getAndMergeUserDbData = async (currentUser) => {
       const dbData = await getUserData(currentUser);
@@ -42,7 +43,7 @@ export const AuthProvider = ({children}) => {
   }
 
   return (
-    <AuthContext.Provider value={{ user, registerUser, signIn, logout }}>
+    <AuthContext.Provider value={{ user, setUser, registerUser, signIn, logout }}>
       {children}
     </AuthContext.Provider>
   )
