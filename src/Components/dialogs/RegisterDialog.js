@@ -27,7 +27,7 @@ const RegisterDialog =(props) => {
 
     try {
       const newUser = await registerUser(email, password)
-      await updateUserDBEntry(newUser, userDetails)
+      await updateUserDBEntry(newUser.user, userDetails)
       successSnackbar();
     } catch (error) {
       setErrorMessage(error.message);
