@@ -109,7 +109,6 @@ const Navbar = () => {
           >
             Meal Prep
           </Typography>
-
           <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
             <IconButton
               size="large"
@@ -184,8 +183,7 @@ const Navbar = () => {
           <Box sx={{ flexGrow: 0 }}>
             <Tooltip title="Open settings">
               <IconButton onClick={handleOpenUserMenu} sx={{ p: 0 }}>
-                {/* TODO add conditional that adds user avatar if they've uploaded a profile pic */}
-                <Avatar alt={(user?.uid) ? (`${user.firstName} ${user.lastName}`) : ""} src="/static/images/avatar/2.jpg" />
+                <Avatar alt={(user?.uid) ? (`${user.firstName} ${user.lastName}`) : ""} src={(user.photoURL) ? user.photoURL : "/static/images/avatar/2.jpg"} />
               </IconButton>
             </Tooltip>
             {(user?.uid) ? (
