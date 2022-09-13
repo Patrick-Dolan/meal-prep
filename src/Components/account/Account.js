@@ -1,6 +1,7 @@
 import { Typography } from "@mui/material";
 import { Container } from "@mui/system"
 import AccountSettings from "./AccountSettings";
+import AccountUpdate from "./AccountUpdate";
 
 const Account = () => {
   return (
@@ -8,6 +9,7 @@ const Account = () => {
       <Typography variant="h5">Account</Typography>
       <br />
       <AccountSettings />
+      <AccountUpdate />
     </Container>
   )
 }
