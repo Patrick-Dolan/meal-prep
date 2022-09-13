@@ -1,17 +1,23 @@
-import { Avatar, Button, Divider, Grid, Typography } from "@mui/material";
+import { Avatar, Button, Dialog, DialogContent, DialogTitle, DialogActions, DialogContentText, Divider, Grid, Typography } from "@mui/material";
 import { Container } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { UserAuth } from "../../Contexts/AuthContext";
 import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { db, storage } from "../../firebase";
 import { updateUserDBEntry } from "../../firebasefunctions"
 import { deleteField, doc, updateDoc } from "firebase/firestore";
 
-// TODO add loading bar for picture upload
-// TODO add dialog confirmation for delete and garbage icon
-
 const AccountUpdate = () => {
   const { user, setUser } = UserAuth();
+  const [open, setOpen] = useState(false);
+
+  const handleClickOpen = () => {
+    setOpen(true);
+  };
+
+  const handleClose = () => {
+    setOpen(false);
+  };
 
   const uploadProfilePicture = async (file) => {
     // Delete old pfp if it exists
@@ -116,6 +122,7 @@ const AccountUpdate = () => {
   const handleFileDelete = () => {
     deleteProfilePicture();
     deleteProfilePictureUserFields();
+    handleClose();
   }
 
   return (
@@ -135,11 +142,32 @@ const AccountUpdate = () => {
             <input hidden accept="image/*" type="file" onChange={handleFileUpload}/>
           </Button>
           <br />
-          <Button sx={{minWidth: "12em", mt: ".5em"}} onClick={handleFileDelete} variant="outlined" color="error">
+          <Button sx={{minWidth: "12em", mt: ".5em"}} onClick={handleClickOpen} variant="outlined" color="error">
             Delete
           </Button>
         </Grid>
       </Grid>
+      {/* DELETE PROFILE PICTURE DIALOG */}
+      <Dialog
+      open={open}
+      onClose={handleClose}
+      >
+      <DialogTitle>
+        {"Delete user profile photo?"}
+      </DialogTitle>
+      <DialogContent>
+        <DialogContentText id="alert-dialog-description">
+          Once you delete your profile photo you won't be able to use the same photo unless you re-upload it.
+          Are you sure you wish to delete your profile photo?
+        </DialogContentText>
+      </DialogContent>
+      <DialogActions>
+        <Button onClick={handleClose}>Close</Button>
+        <Button onClick={handleFileDelete}>
+          Delete
+        </Button>
+      </DialogActions>
+      </Dialog>
     </Container>
   )
 }
