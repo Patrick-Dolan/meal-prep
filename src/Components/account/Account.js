@@ -10,9 +10,6 @@ const Account = () => {
 
   return (
     <Container sx={{mt: "1em"}}>
-      <Typography variant="h5">Account</Typography>
-      <Divider />
-      <br />
       <Grid container spacing={2}>
         <Grid item xs={12} sm={4} md={3} textAlign="center">
           <ProfileCard toggleProfile={setToggleProfile} />
