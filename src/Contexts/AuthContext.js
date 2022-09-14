@@ -10,7 +10,7 @@ export const AuthContext = createContext();
 export const AuthProvider = ({children}) => {
   const [user, setUser] = useState({});
   
-  // console.log("Current User: ", user)
+  console.log("Current User: ", user)
 
   useEffect(() => {
     const getAndMergeUserDbData = async (currentUser) => {
