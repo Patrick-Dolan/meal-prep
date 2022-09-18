@@ -1,21 +1,44 @@
 import { Button, Divider, Grid, TextField, Typography, Paper } from "@mui/material";
 import { Container } from "@mui/system";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { UserAuth } from "../../Contexts/AuthContext";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
+import ConfirmAuthDialog from "../dialogs/ConfirmAuthDialog";
 
 const AccountSettings = () => {
-  const { user } = UserAuth();
+  const { user, setUser, updateUserEmail } = UserAuth();
   const [ editEmailAndPassword, setEditEmailAndPassword ] = useState(false);
+  const [ authConfirmed, setAuthConfirmed ] = useState(false);
+  const [ open, setOpen ] = useState(false);
+  const [ newEmail, setNewEmail ] = useState();
+  
+  useEffect(() => {
+    if (authConfirmed) {
+      updateEmail();
+      // Set user manually to update component immediately
+      setUser(prev => ({...prev, email: newEmail}))
+    }
+    setAuthConfirmed(false);
+    setEditEmailAndPassword(false);
+  }, [authConfirmed])
 
   const handleEditClick = () => {
     setEditEmailAndPassword(true);
     if (editEmailAndPassword) {setEditEmailAndPassword(false)}
   }
 
-  const handleSubmitAccountChanges = () => {
-    alert("Account changes clicked!")
+  const updateEmail = async () => {
+    try {
+      await updateUserEmail(newEmail)
+      console.log("Updated successfully");
+    } catch(e) {
+      console.log("Email update error: ", e.message);
+    }
+  }
+
+  const handleSubmitAccountChanges = async () => {
+    setOpen(true);
   }
 
   return (
@@ -45,6 +68,7 @@ const AccountSettings = () => {
           <Grid item xs={9} sm={9} md={9}>
             {(editEmailAndPassword) ? (
               <TextField
+                onChange={(e) => setNewEmail(e.target.value)}
                 margin="dense"
                 id="email"
                 label="Email"
@@ -96,6 +120,11 @@ const AccountSettings = () => {
             null
           )}
       </Container>
+      <ConfirmAuthDialog
+        open={open}
+        setOpen={setOpen}
+        setAuthConfirmed={setAuthConfirmed}
+      />
     </Paper>
   )
 }
