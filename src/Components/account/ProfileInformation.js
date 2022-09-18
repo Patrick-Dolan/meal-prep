@@ -5,17 +5,16 @@ import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebas
 import { deleteField, doc, updateDoc } from "firebase/firestore";
 import { updateUserDBEntry } from "../../firebasefunctions"
 import { db, storage } from "../../firebase";
-import { useState } from "react";
+import { useState, useRef } from "react";
 import EditIcon from '@mui/icons-material/Edit';
 import SaveIcon from '@mui/icons-material/Save';
-// import { useTheme } from "@mui/material/styles";
 
 const ProfileInformation = () => {
   const { user, setUser } = UserAuth();
   const [ editProfileInformation, setEditProfileInformation ] = useState(false);
   const [ editProfilePhoto, setEditProfilePhoto ] = useState(false);
-  const [open, setOpen] = useState(false);
-  // const theme = useTheme();
+  const [ open, setOpen ] = useState(false);
+  const form = useRef();
 
   const handleEditProfileInformationClick = () => {
     setEditProfileInformation(true);
@@ -27,8 +26,28 @@ const ProfileInformation = () => {
     if (editProfilePhoto) {setEditProfilePhoto(false)}
   }
 
-  const handleSubmitProfileChanges = () => {
-    alert("Update Clicked!")
+  const handleSubmitProfileChanges = async (e) => {
+    e.preventDefault();
+
+    const payload = {
+      firstName: e.target.firstName.value.trim(),
+      lastName: e.target.lastName.value.trim(),
+      favoriteFoods: e.target.favoriteFoods.value.trim(),
+      foodAllergies: e.target.foodAllergies.value.trim(),
+      bio: e.target.bio.value.trim()
+    }
+
+    try {
+      await updateUserDBEntry(user, payload);
+      setUser({
+        ...user,
+        ...payload
+      });
+    } catch (error) {
+      console.log("Profile Information error: ", e.message);
+    }
+
+    setEditProfileInformation(false);
   }
 
   const handleClickOpen = () => {
@@ -150,7 +169,6 @@ const ProfileInformation = () => {
     color: "#6C6C6C"
   }
 
-  // TODO setup profile information form, submission, and firestore update
   return (
       <Paper elevation={5} sx={{mb: "1em"}}>
         <Container maxWidth="lg">
@@ -195,7 +213,7 @@ const ProfileInformation = () => {
               null
             )}
           </Grid>
-          <Typography variant="body2" sx={{mt: ".5em"}}>
+          <Typography variant="body2" sx={{mt: ".5em", mb: "2em"}}>
             Click <Link onClick={handleEditProfileClick} sx={{textDecoration: "none", fontWeight: "bold"}}>HERE</Link> to change your profile picture.</Typography>
           {/* Profile Information Section */}
           <Grid container justifyContent={"space-between"} alignItems="center">
@@ -214,126 +232,142 @@ const ProfileInformation = () => {
             </Grid>
           </Grid>
           <Divider />
-          <Grid container sx={{pb: "4em", mt: "1em"}}>
-            <Grid item xs={3} sm={3} md={3}>
-              <Typography variant="body2" sx={labelStyles}>First Name</Typography>
+          <form ref={form} onSubmit={handleSubmitProfileChanges}>
+            <Grid container sx={{pb: "4em", mt: "1em"}}>
+              <Grid item xs={3} sm={3} md={3}>
+                <Typography variant="body2" sx={labelStyles}>First Name</Typography>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                {(editProfileInformation) ? (
+                  <TextField
+                    margin="dense"
+                    id="firstname"
+                    name="firstName"
+                    label="First Name"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={user.firstName}
+                    inputProps={{maxLength: 25}}
+                    fullWidth
+                    required
+                  />
+                  ) : (
+                    <Typography variant="body2">{user?.firstName}</Typography>
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              {(editProfileInformation) ? (
-                <TextField
-                  margin="dense"
-                  id="firstname"
-                  label="First Name"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={user.firstName}
-                  fullWidth
-                  required
-                />
+            <Grid container sx={{pb: "4em"}}>
+              <Grid item xs={3} sm={3} md={3}>
+                <Typography variant="body2"  sx={labelStyles}>Last Name</Typography>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                {(editProfileInformation) ? (
+                  <TextField
+                    margin="dense"
+                    id="lastname"
+                    name="lastName"
+                    label="Last Name"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={user.lastName}
+                    inputProps={{maxLength: 25}}
+                    fullWidth
+                    required
+                  />
+                  ) : (
+                    <Typography variant="body2">{user?.lastName}</Typography>
+                )}
+              </Grid>
+            </Grid>
+            <Grid container sx={{pb: "4em"}}>
+              <Grid item xs={3} sm={3} md={3}>
+                <Typography variant="body2"  sx={labelStyles}>Favorite Foods</Typography>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                {(editProfileInformation) ? (
+                  <TextField
+                    margin="dense"
+                    id="favoriteFoods"
+                    name="favoriteFoods"
+                    label="Favorite Foods"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={user?.favoriteFoods}
+                    inputProps={{maxLength: 250}}
+                    fullWidth
+                    multiline
+                  />
                 ) : (
-                  <Typography variant="body2">{user?.firstName}</Typography>
-              )}
+                  <Typography variant="body2">{(user?.favoriteFoods) ? (user?.favoriteFoods) : ("Share your favorite foods here.")}</Typography>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container sx={{pb: "4em"}}>
-            <Grid item xs={3} sm={3} md={3}>
-              <Typography variant="body2"  sx={labelStyles}>Last Name</Typography>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              {(editProfileInformation) ? (
-                <TextField
-                  margin="dense"
-                  id="lastname"
-                  label="Last Name"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={user.lastName}
-                  fullWidth
-                  required
-                />
+            <Grid container sx={{pb: "4em"}}>
+              <Grid item xs={3} sm={3} md={3}>
+                <Typography variant="body2"  sx={labelStyles}>Food Allergies</Typography>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                {(editProfileInformation) ? (
+                  <TextField
+                    margin="dense"
+                    id="foodAllergies"
+                    name="foodAllergies"
+                    label="Food Allergies"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={user?.foodAllergies}
+                    inputProps={{maxLength: 250}}
+                    fullWidth
+                    multiline
+                  />
                 ) : (
-                  <Typography variant="body2">{user?.lastName}</Typography>
-              )}
+                  <Typography variant="body2">{(user?.foodAllergies) ? (user?.foodAllergies) : ("Share any food allergies you have here.")}</Typography>
+                )}
+              </Grid>
             </Grid>
-          </Grid>
-          <Grid container sx={{pb: "4em"}}>
-            <Grid item xs={3} sm={3} md={3}>
-              <Typography variant="body2"  sx={labelStyles}>Favorite Foods</Typography>
+            <Grid container sx={{pb: "4em"}}>
+              <Grid item xs={3} sm={3} md={3}>
+                <Typography variant="body2"  sx={labelStyles}>Bio</Typography>
+              </Grid>
+              <Grid item xs={9} sm={9} md={9}>
+                {(editProfileInformation) ? (
+                  <TextField
+                    margin="dense"
+                    id="bio"
+                    name="bio"
+                    label="Bio"
+                    type="text"
+                    variant="outlined"
+                    size="small"
+                    defaultValue={user?.bio}
+                    inputProps={{maxLength: 250}}
+                    rows={3}
+                    fullWidth
+                    multiline
+                  />
+                ) : (
+                  <Typography variant="body2">{(user?.bio) ? (user?.bio) : ("Tell us about yourself!")}</Typography>
+                )}
+              </Grid>
             </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              {(editProfileInformation) ? (
-                <TextField
-                  margin="dense"
-                  id="favoriteFoods"
-                  label="Favorite Foods"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={user?.favoriteFoods}
-                  fullWidth
-                />
-              ) : (
-                <Typography variant="body2">{(user?.favoriteFoods) ? (user?.favoriteFoods) : ("Share your favorite foods here.")}</Typography>
-              )}
-            </Grid>
-          </Grid>
-          <Grid container sx={{pb: "4em"}}>
-            <Grid item xs={3} sm={3} md={3}>
-              <Typography variant="body2"  sx={labelStyles}>Food Allergies</Typography>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              {(editProfileInformation) ? (
-                <TextField
-                  margin="dense"
-                  id="foodAllergies"
-                  label="Food Allergies"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={user?.foodAllergies}
-                  fullWidth
-                />
-              ) : (
-                <Typography variant="body2">{(user?.foodAllergies) ? (user?.foodAllergies) : ("Share any food allergies you have here.")}</Typography>
-              )}
-            </Grid>
-          </Grid>
-          <Grid container sx={{pb: "4em"}}>
-            <Grid item xs={3} sm={3} md={3}>
-              <Typography variant="body2"  sx={labelStyles}>Bio</Typography>
-            </Grid>
-            <Grid item xs={9} sm={9} md={9}>
-              {(editProfileInformation) ? (
-                <TextField
-                  margin="dense"
-                  id="bio"
-                  label="Bio"
-                  type="text"
-                  variant="outlined"
-                  size="small"
-                  defaultValue={user?.bio}
-                  fullWidth
-                />
-              ) : (
-                <Typography variant="body2">{(user?.bio) ? (user?.bio) : ("Tell us about yourself!")}</Typography>
-              )}
-            </Grid>
-          </Grid>
-          {(editProfileInformation) ? (
-            <Button
-              onClick={handleSubmitProfileChanges}
-              startIcon={<SaveIcon />}
-              variant="contained"
-              size="small"
-              sx={{mb: "1.5em"}}
-            >
-              Update profile
-            </Button>
-          ) : (
-            null
-          )}
+            {(editProfileInformation) ? (
+              <Button
+                type="submit"
+                startIcon={<SaveIcon />}
+                variant="contained"
+                size="small"
+                sx={{mb: "1.5em"}}
+              >
+                Update profile
+              </Button>
+            ) : (
+              null
+            )}
+          </form>
         </Container>
         {/* DELETE PROFILE PICTURE DIALOG */}
         <Dialog
