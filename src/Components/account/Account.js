@@ -1,4 +1,4 @@
-import { Divider, Grid, Typography } from "@mui/material";
+import { Grid } from "@mui/material";
 import { Container } from "@mui/system";
 import { useState } from "react";
 import ProfileCard from "./ProfileCard";
