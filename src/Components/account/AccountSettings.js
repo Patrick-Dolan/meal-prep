@@ -26,7 +26,7 @@ const AccountSettings = () => {
     const updatePassword = async () => {
       try {
         if (newPassword?.length > 0) {
-          await updateUserPassword(newPassword);
+          await updateUserPassword(newPassword.trim());
           console.log("Password updated successfully");
         } else {
           console.log("Password update unnecessary");
@@ -48,7 +48,7 @@ const AccountSettings = () => {
       try {
         if (user.email !== newEmail) {
           await updateUserEmail(newEmail)
-          setUser(prev => ({...prev, email: newEmail}));
+          setUser(prev => ({...prev, email: newEmail.trim()}));
           console.log("Email updated successfully");
         } else {
           console.log("Email update unnecessary");
