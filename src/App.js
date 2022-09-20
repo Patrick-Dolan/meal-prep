@@ -3,6 +3,7 @@ import BrowseRecipes from "./Components/browse/BrowseRecipes";
 import MyRecipes from "./Components/my-recipes/MyRecipes";
 import MealPlans from "./Components/meal-plans/MealPlans";
 import Account from "./Components/account/Account";
+import Homepage from "./Components/homepage/Homepage";
 import { Route, Routes } from "react-router";
 import { ThemeProvider } from "@mui/material/styles";
 import { theme } from "./theme/index";
@@ -16,7 +17,7 @@ function App() {
       <ThemeProvider theme={theme}>
         <Navbar />
         <Routes>
-          <Route path="/" element={<BrowseRecipes />} />
+          <Route path="/" element={<Homepage />} />
           <Route path="Browse" element={<BrowseRecipes />} />
           <Route path="My%20Recipes" element={<MyRecipes />} />
           <Route path="Meal%20Plans" element={<MealPlans />} />
