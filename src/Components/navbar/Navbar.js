@@ -10,13 +10,13 @@ import Avatar from '@mui/material/Avatar';
 import Button from '@mui/material/Button';
 import Tooltip from '@mui/material/Tooltip';
 import MenuItem from '@mui/material/MenuItem';
-import TakeoutDining from '@mui/icons-material/TakeoutDining';
 import { Link } from "react-router-dom";
 import RegisterDialog from '../dialogs/RegisterDialog';
 import SigninDialog from "../dialogs/SigninDialog";
 import { useState } from "react";
 import { UserAuth } from '../../Contexts/AuthContext';
 import { Alert, Snackbar} from "@mui/material";
+import MealPrepSplash from '../../assets/MealPrepWithCircle';
 
 const pages = ["Meal Plans", "My Recipes", "Browse"];
 
@@ -92,7 +92,9 @@ const Navbar = () => {
     <AppBar position="static">
       <Container maxWidth="lg">
         <Toolbar disableGutters>
-          <TakeoutDining sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
+            <MealPrepSplash width={30} height={30} sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }} />
+          </Box>
           <Typography
             variant="h6"
             noWrap
@@ -149,7 +151,9 @@ const Navbar = () => {
               ))}
             </Menu>
           </Box>
-          <TakeoutDining sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }} />
+          <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
+            <MealPrepSplash width={30} height={30} />
+          </Box>
           <Typography
             variant="h5"
             noWrap
