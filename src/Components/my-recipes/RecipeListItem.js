@@ -19,15 +19,15 @@ const RecipeListItem = (props) => {
   return (
     <Card sx={{ display: 'flex' }} variant="outlined">
       <Grid container>
-        <Grid item> 
+        <Grid item xs={12} sm={3} md={2}> 
           <CardMedia
             component="img"
-            sx={{ width: 125, height: "100%" }}
+            sx={{ width: {xs: "100%", sm: "100%"}, height: { xs: "10em", sm: "100%"} }}
             image={recipe.thumbnail_url}
             alt={recipe.thumbnail_alt_text}
           />
         </Grid>
-        <Grid item>
+        <Grid item xs={12} sm={9} md={10}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <CardContent sx={{ flex: '1 0 auto' }}>
               <Typography component="div" variant="h6">
