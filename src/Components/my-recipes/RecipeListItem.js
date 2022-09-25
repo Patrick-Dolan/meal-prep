@@ -4,13 +4,16 @@ import CloseIcon from '@mui/icons-material/Close';
 
 
 const RecipeListItem = (props) => {
-  const { recipe } = props;
+  const { recipe, setOpen, setSelectedRecipe } = props;
+
+  
 
   const handleEditClick = () => {
     alert("Edit clicked");
   }
   const handleViewClick = () => {
-    alert("View clicked");
+    setSelectedRecipe(recipe);
+    setOpen(true);
   }
 
   return (
