@@ -1,7 +1,8 @@
-import { Box, Container, Divider, Typography, Slide } from "@mui/material";
+import { Box, Button, Container,  Divider, Typography, Slide } from "@mui/material";
 import { forwardRef, useState } from "react";
 import RecipeDetails from "./RecipeDetails";
 import RecipeListItem from "./RecipeListItem";
+import RecipeCreate from "./RecipeCreate";
 
 const placeholderRecipe = {
   name: "Chicken Teriyaki Bowl",
@@ -113,19 +114,34 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const MyRecipes = () => {
   const [selectedRecipe, setSelectedRecipe] = useState();
-  const [open, setOpen] = useState(false);
+  const [openEdit, setOpenEdit] = useState(false);
+  const [openCreate, setOpenCreate] = useState(false);
 
-  const handleClose = () => {
-    setOpen(false);
+  const handleEditClose = () => {
+    setOpenEdit(false);
+  };
+  
+  const handleCreateClick = () => {
+    setOpenCreate(true);
+  };
+  
+  const handleCreateClose = () => {
+    setOpenCreate(false);
   };
 
   return (
     <Container maxWidth="lg" sx={{my: "2em"}}>
       <Typography variant="h4">My Recipes</Typography>
       <Divider sx={{mb: "1em"}} />
+      <Button 
+        onClick={handleCreateClick}
+        variant="contained"
+      >
+        Add Custom Recipe
+      </Button>
       <Box sx={{mb: ".5em"}}>
         <RecipeListItem 
-          setOpen={setOpen}
+          setOpen={setOpenEdit}
           setSelectedRecipe={setSelectedRecipe}
           recipe={placeholderRecipe} 
         />
@@ -138,11 +154,18 @@ const MyRecipes = () => {
       </Box>
       <RecipeDetails
         fullScreen
-        open={open}
-        setOpen={setOpen}
-        onClose={handleClose}
+        open={openEdit}
+        setOpen={setOpenEdit}
+        onClose={handleEditClose}
         Transition={Transition}
         recipe={selectedRecipe}
+      />
+      <RecipeCreate
+        fullScreen
+        open={openCreate}
+        setOpenCreate={setOpenCreate}
+        onClose={handleCreateClose}
+        Transition={Transition}
       />
     </Container>
   )
