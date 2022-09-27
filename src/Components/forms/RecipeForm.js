@@ -73,7 +73,7 @@ const RecipeForm = () => {
       </Grid>
       <Typography variant="h5" sx={{ mt: "1em"}}>Recipe photo</Typography>
 
-      <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row"}} textAlign="center">
+      <Grid container spacing={2} textAlign="center">
         <Grid item xs={12} sm={6} md={6}>
           <Dropzone
             files={files}
@@ -84,18 +84,26 @@ const RecipeForm = () => {
           {(files[0]?.preview) ? (
               <Box 
                 sx={{
-                  py: "3em",
                   border: "1px solid black",
+                  height:"100%",
+                  display:"flex",
+                  justifyContent:"center",
+                  flexDirection:"column"
                 }}
               >
-                <img src={files[0].preview} style={{height: "10em"}} alt="Recipe preview" />
-                <Typography variant="h5">Recipe preview image</Typography>
+                <Box sx={{mx :"auto", my: "1em"}}>
+                  <img src={files[0].preview} style={{width: "10em"}} alt="Recipe preview" />
+                </Box>
+                <Typography variant="h5">Image Preview</Typography>
               </Box>
           ) : (
               <Box 
                 sx={{
-                  py: "5em",
                   border: "1px solid black",
+                  height:"100%",
+                  display:"flex",
+                  justifyContent:"center",
+                  flexDirection:"column"
                 }}
               >
                 <Typography variant="h5">Image preview</Typography>
