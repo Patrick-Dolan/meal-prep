@@ -2,12 +2,14 @@ import { Button, Divider, Grid, TextField, Typography } from "@mui/material";
 import { Box, Container } from "@mui/system";
 import { useState } from "react";
 import { useTheme } from "@emotion/react";
+import Dropzone from "./Dropzone";
 
 const RecipeForm = () => {
   const [name, setName] = useState("New Recipe");
   const [description, setDescription] = useState("");
   const [nutritionFacts, setNutritionFacts] = useState([]);
   const [instructions, setInstructions] = useState([{ step: 1, instruction: ""}])
+  const [files, setFiles] = useState([]);
 
   const theme = useTheme();
 
@@ -69,15 +71,36 @@ const RecipeForm = () => {
           />
         </Grid>
       </Grid>
-      <Grid container sx={{ border: "2px dashed grey", mt: "1em"}}>
+      <Typography variant="h5" sx={{ mt: "1em"}}>Recipe photo</Typography>
+
+      <Grid container spacing={2} sx={{ display: "flex", flexDirection: "row"}} textAlign="center">
         <Grid item xs={12} sm={6} md={6}>
-          <Box sx={{p: "6em", backgroundColor: "Blue"}}>
-          </Box>
+          <Dropzone
+            files={files}
+            setFiles={setFiles}
+          />
         </Grid>
         <Grid item xs={12} sm={6} md={6}>
-          <Box sx={{textAlign: "center", p: "5em"}}>
-            <Typography variant="h5">Upload placeholders</Typography>
-          </Box>
+          {(files[0]?.preview) ? (
+              <Box 
+                sx={{
+                  py: "3em",
+                  border: "1px solid black",
+                }}
+              >
+                <img src={files[0].preview} style={{height: "10em"}} alt="Recipe preview" />
+                <Typography variant="h5">Recipe preview image</Typography>
+              </Box>
+          ) : (
+              <Box 
+                sx={{
+                  py: "5em",
+                  border: "1px solid black",
+                }}
+              >
+                <Typography variant="h5">Image preview</Typography>
+              </Box>
+          )}
         </Grid>
       </Grid>
       <Typography variant="h5" sx={{ mt: "1em"}}>Nutrition Facts</Typography>
