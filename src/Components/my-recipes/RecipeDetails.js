@@ -47,28 +47,34 @@ const RecipeDetails = (props) => {
           </Toolbar>
         </AppBar>
         <Container sx={{mt: "1em"}}>
-          <Grid 
-            container 
-            justifyContent="center"
-            alignItems={"center"}
+          <Box
+            sx={{
+              float: {xs: "none", sm:"left", md: "left"}
+            }}
           >
-            <Grid item xs={12} sm={6} md={6} >
-              <CardMedia 
-                src={recipe?.thumbnail_url} 
-                component="img" 
-                sx={{ width: "75%", height: "250px", margin: "auto", py: "1em" }}
-              />
-            </Grid>
-            <Grid item xs={12} sm={6} md={6}>
-              <Typography variant="h4">{recipe?.name}</Typography>
-              <Divider />
-              <Typography variant="subtitle1" component="div">
-                {recipe?.description}
-              </Typography>
-            </Grid>
-          </Grid>
+            <CardMedia 
+              src={recipe?.thumbnail_url} 
+              component="img" 
+              sx={{
+                width: "75%", 
+                height: "250px", 
+                margin: "auto", 
+                py: "1em", 
+                px: "3em" 
+              }}
+            />
+          </Box>
+          <Box>
+            <Typography variant="h4">{recipe?.name}</Typography>
+            <Divider />
+            <Typography variant="subtitle2" component="div">
+              {(recipe?.description) ? (recipe.description) : ("No description available.")}
+            </Typography>
+          </Box>
           <Grid container spacing={2} sx={{mt: "1em"}}>
             <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="h5">Ingredients</Typography>
+            <Divider />
               {(recipe?.ingredients) ? (
                 <IngredientsTable
                   ingredients={recipe.ingredients}
@@ -78,6 +84,8 @@ const RecipeDetails = (props) => {
               )}
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
+            <Typography variant="h5">Nutrition Facts</Typography>
+            <Divider />
               {(recipe?.nutritionFacts) ? (
                 <NutritionTable
                   nutrition={recipe.nutritionFacts}
@@ -94,21 +102,25 @@ const RecipeDetails = (props) => {
           >
             <Typography variant="h5">Instructions</Typography>
             <Divider />
-            {recipe?.instructions.map((instruction) => 
-              <Grid 
-                container 
-                key={instruction.step}  
-                direction="row"
-              >
-                <Grid item xs={2} sm={2} md={1} sx={{my: "2em"}}>
-                  <Box sx={circle}>
-                    <Typography variant="subtitle2">{instruction.step}</Typography>
-                  </Box>
+            {(recipe?.instructions) ? (
+              recipe?.instructions?.map((instruction) => 
+                <Grid 
+                  container 
+                  key={instruction.step}  
+                  direction="row"
+                >
+                  <Grid item xs={2} sm={2} md={1} sx={{my: "2em"}}>
+                    <Box sx={circle}>
+                      <Typography variant="subtitle2">{instruction.step}</Typography>
+                    </Box>
+                  </Grid>
+                  <Grid item xs={9} sm={10} md={10} sx={{my: "2em"}}>
+                    <Typography variant="body1">{instruction.instruction}</Typography>
+                  </Grid>
                 </Grid>
-                <Grid item xs={9} sm={10} md={10} sx={{my: "2em"}}>
-                  <Typography variant="body1">{instruction.instruction}</Typography>
-                </Grid>
-              </Grid>
+                )
+            ) : (
+              <Typography variant="subtitle2">No instructions available.</Typography>
             )}
           </Box>
         </Container>
