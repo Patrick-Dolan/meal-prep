@@ -1,18 +1,20 @@
 import { Box, Button, Container,  Divider, Typography, Slide } from "@mui/material";
-import { forwardRef, useState } from "react";
+import { forwardRef, useState, useEffect } from "react";
 import RecipeDetails from "./RecipeDetails";
 import RecipeListItem from "./RecipeListItem";
 import RecipeCreate from "./RecipeCreate";
+import { createRecipeDBEntry, getUserRecipes } from "../../firebasefunctions";
+import { UserAuth } from "../../Contexts/AuthContext";
 
 const placeholderRecipe = {
   name: "Chicken Teriyaki Bowl",
   description: "This easy Chicken Teriyaki bowl is loaded with juicy morsels of chicken glazed in a simple three-ingredient teriyaki sauce. Served over a bowl of rice and veggies, it's a quick weekday meal that comes together in about fifteen minutes.",
-  cook_time_minutes: 10,
+  cooktime: 10,
   thumbnail_url: "https://norecipes.com/wp-content/uploads/2021/07/chicken-teriyaki-bowl-004-1200x1799.jpg",
   thumbnial_alt_text: "Chicken teriyaki bowl",
   isPublic: true,
   isDraft: false,
-  nutrition: [
+  nutritionFacts: [
   {
     name: "Calories",
     value: 812
@@ -114,15 +116,35 @@ const Transition = forwardRef(function Transition(props, ref) {
 
 const MyRecipes = () => {
   const [selectedRecipe, setSelectedRecipe] = useState();
+  const [newRecipeId, setNewRecipeId] = useState();
   const [openEdit, setOpenEdit] = useState(false);
   const [openCreate, setOpenCreate] = useState(false);
+  const [userRecipes, setUserRecipes] = useState([]);
+  const { user } = UserAuth();
+
+  // TODO fix useEffect to re-render recipes when a new one is added
+  useEffect(() => {
+    const getRecipes = async () => {
+      const recipes = await getUserRecipes(user);
+      console.log(recipes)
+      setUserRecipes(recipes);
+    }
+    
+    getRecipes();
+  }, [user, user.recipes])
 
   const handleEditClose = () => {
     setOpenEdit(false);
   };
   
-  const handleCreateClick = () => {
+  const handleCreateClick = async () => {
     setOpenCreate(true);
+    try {
+      const newRecipeId = await createRecipeDBEntry(user);
+      setNewRecipeId(newRecipeId);
+    } catch (error) {
+      console.log(error.message);
+    }
   };
   
   const handleCreateClose = () => {
@@ -140,6 +162,24 @@ const MyRecipes = () => {
         Add Custom Recipe
       </Button>
       <Box sx={{mb: ".5em"}}>
+        {(userRecipes) ? (
+          <>
+            {userRecipes.map((userRecipe) => 
+            //TODO change key to something more meaningful
+              <Box sx={{mb: ".5em"}}>
+                <RecipeListItem
+                  key={userRecipe.key}
+                  recipe={userRecipe}
+                  setOpen={setOpenEdit}
+                  setSelectedRecipe={setSelectedRecipe}
+                />
+              </Box>
+            )}
+          </>
+        ) : (
+          //TODO add conditional render message for not having recipes
+          null
+        )}
         <RecipeListItem 
           setOpen={setOpenEdit}
           setSelectedRecipe={setSelectedRecipe}
@@ -166,6 +206,7 @@ const MyRecipes = () => {
         setOpenCreate={setOpenCreate}
         onClose={handleCreateClose}
         Transition={Transition}
+        newRecipeId={newRecipeId}
       />
     </Container>
   )
