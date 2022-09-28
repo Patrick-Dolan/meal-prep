@@ -12,7 +12,7 @@ const NutritionTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {nutrition.map((row) => (
+          {nutrition?.map((row) => (
             <TableRow
               key={row?.name}
             >
