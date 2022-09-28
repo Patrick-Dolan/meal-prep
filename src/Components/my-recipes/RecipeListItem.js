@@ -6,11 +6,10 @@ import CloseIcon from '@mui/icons-material/Close';
 const RecipeListItem = (props) => {
   const { recipe, setOpen, setSelectedRecipe } = props;
 
-  
-
   const handleEditClick = () => {
     alert("Edit clicked");
   }
+
   const handleViewClick = () => {
     setSelectedRecipe(recipe);
     setOpen(true);
@@ -23,24 +22,24 @@ const RecipeListItem = (props) => {
           <CardMedia
             component="img"
             sx={{ width: {xs: "100%", sm: "100%"}, height: { xs: "10em", sm: "100%"} }}
-            image={recipe.thumbnail_url}
-            alt={recipe.thumbnail_alt_text}
+            image={recipe?.thumbnail_url}
+            alt={recipe?.thumbnail_alt_text}
           />
         </Grid>
         <Grid item xs={12} sm={9} md={10}>
           <Box sx={{ display: 'flex', flexDirection: 'column' }}>
             <CardContent sx={{ flex: '1 0 auto' }}>
               <Typography component="div" variant="h6">
-                {recipe.name}
+                {recipe?.name}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {recipe.description.slice(0, 75) + "..."}
+                {(recipe?.description) ? (recipe.description.slice(0, 75) + "...") : (null)}
                 <br />
-                Cook time: {recipe.cook_time_minutes} minutes
+                Cook time: {recipe?.cooktime} minutes
                 <br />
-                Public {recipe.isPublic ? <CheckIcon color="success" fontSize="small" /> : <CloseIcon color="error" fontSize="small" />} 
+                Public {recipe?.isPublic ? <CheckIcon color="success" fontSize="small" /> : <CloseIcon color="error" fontSize="small" />} 
                 <br />
-                Draft {recipe.isDraft ? <CheckIcon color="success" fontSize="small" /> : <CloseIcon color="error" fontSize="small" />}
+                Draft {recipe?.isDraft ? <CheckIcon color="success" fontSize="small" /> : <CloseIcon color="error" fontSize="small" />}
               </Typography>
             </CardContent>
           </Box>
