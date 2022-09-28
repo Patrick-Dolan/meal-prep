@@ -33,9 +33,17 @@ const RecipeListItem = (props) => {
                 {recipe?.name}
               </Typography>
               <Typography variant="subtitle1" color="text.secondary" component="div">
-                {(recipe?.description) ? (recipe.description.slice(0, 75) + "...") : (null)}
+                {(recipe?.description) ? (
+                  (recipe.description.length > 75) ? (
+                    recipe.description.slice(0, 75) + "..."
+                  ) : (
+                    recipe.description
+                  )
+                ) : (
+                  "Description N/A"
+                )}
                 <br />
-                Cook time: {recipe?.cooktime} minutes
+                Cook time: {(recipe?.cooktime) ? (recipe?.cooktime + " minutes") : (" N/A")}
                 <br />
                 Public {recipe?.isPublic ? <CheckIcon color="success" fontSize="small" /> : <CloseIcon color="error" fontSize="small" />} 
                 <br />
@@ -49,12 +57,16 @@ const RecipeListItem = (props) => {
               onClick={handleViewClick}
               sx={{ mr: ".5em", mb: ".5em", minWidth: "10em"}}
               variant="contained"
-              >View Recipe</Button>
+              >
+                View Recipe
+              </Button>
               <Button
               onClick={handleEditClick}
               sx={{ mb: ".5em", minWidth: "10em" }}
               variant="contained"
-              >Edit Recipe</Button>
+              >
+                Edit Recipe
+              </Button>
             </CardContent>
           </Box>
         </Grid>
