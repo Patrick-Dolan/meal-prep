@@ -38,9 +38,11 @@ export const createRecipeDBEntry = async (user) => {
   // Create recipes collection and add new document to it as empty recipe with created at date
   const collectionRef = collection(db, "users", user.uid, "recipes")
   const docRef = await addDoc(collectionRef, {
+    name: "New Recipe",
     key: v4(),
     isDraft: true,
     isPublic: false,
+    thumbnail_url: "https://bit.ly/3dSiUZK",
     createdAt: serverTimestamp()
   });
 
