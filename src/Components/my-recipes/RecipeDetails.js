@@ -69,14 +69,22 @@ const RecipeDetails = (props) => {
           </Grid>
           <Grid container spacing={2} sx={{mt: "1em"}}>
             <Grid item xs={12} sm={6} md={6}>
-              <IngredientsTable
-                ingredients={recipe?.ingredients}
-              />
+              {(recipe?.ingredients) ? (
+                <IngredientsTable
+                  ingredients={recipe.ingredients}
+                />
+              ) : (
+                <Typography variant="subtitle2">No ingredients Available.</Typography>
+              )}
             </Grid>
             <Grid item xs={12} sm={6} md={6}>
-              <NutritionTable
-                nutrition={recipe?.nutrition}
-              />
+              {(recipe?.nutritionFacts) ? (
+                <NutritionTable
+                  nutrition={recipe.nutritionFacts}
+                />
+              ) : (
+                <Typography variant="subtitle2">No nutrition information Available.</Typography>
+              )}
             </Grid>
           </Grid>
           <Box
