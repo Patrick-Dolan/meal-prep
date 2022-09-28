@@ -12,11 +12,11 @@ const IngredientsTable = (props) => {
           </TableRow>
         </TableHead>
         <TableBody>
-          {ingredients.map((row) => (
+          {ingredients?.map((row) => (
             <TableRow
               key={row?.name}
             >
-              <TableCell width={"35%"}>{row?.amount + " " + row?.unit}</TableCell>
+              <TableCell width={"35%"}>{row?.amount + " " + row?.measurement}</TableCell>
               <TableCell >{row?.name}</TableCell>
             </TableRow>
           ))}
