@@ -165,10 +165,8 @@ const MyRecipes = () => {
         {(userRecipes) ? (
           <>
             {userRecipes.map((userRecipe) => 
-            //TODO change key to something more meaningful
-              <Box sx={{mb: ".5em"}}>
+              <Box sx={{mb: ".5em"}} key={userRecipe.key}>
                 <RecipeListItem
-                  key={userRecipe.key}
                   recipe={userRecipe}
                   setOpen={setOpenEdit}
                   setSelectedRecipe={setSelectedRecipe}
@@ -177,8 +175,7 @@ const MyRecipes = () => {
             )}
           </>
         ) : (
-          //TODO add conditional render message for not having recipes
-          null
+          <Typography variant="subtitle2">No recipes available.</Typography>
         )}
         <RecipeListItem 
           setOpen={setOpenEdit}
