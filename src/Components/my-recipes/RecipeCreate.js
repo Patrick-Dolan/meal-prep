@@ -1,5 +1,3 @@
-import * as React from 'react';
-import Button from '@mui/material/Button';
 import Dialog from '@mui/material/Dialog';
 import AppBar from '@mui/material/AppBar';
 import Toolbar from '@mui/material/Toolbar';
@@ -10,7 +8,7 @@ import { Container } from '@mui/material';
 import RecipeForm from '../forms/RecipeForm';
 
 const RecipeCreate = (props) => {
-  const { open, setOpenCreate, Transition } = props;
+  const { open, setOpenCreate, Transition, newRecipeId } = props;
 
   const handleClose = () => {
     setOpenCreate(false);
@@ -36,13 +34,13 @@ const RecipeCreate = (props) => {
           <Typography sx={{ ml: 2, flex: 1 }} variant="h6" component="div">
             Create new recipe
           </Typography>
-          <Button autoFocus color="inherit" onClick={() => alert("Save clicked")}>
-            save
-          </Button>
         </Toolbar>
       </AppBar>
       <Container sx={{mt: "1em"}}>
-        <RecipeForm />
+        <RecipeForm
+          newRecipeId={newRecipeId}
+          setOpenCreate={setOpenCreate}
+        />
       </Container>
     </Dialog>
   );
