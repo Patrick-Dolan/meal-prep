@@ -368,23 +368,37 @@ const RecipeForm = (props) => {
             )}
           </Grid>
         </Grid>
-        <Grid container item sx={{mt: "2em"}}>
-          <Grid item xs={12} sm={6} md={6}>
-            <Button
-              onClick={handleSaveDraft}
-              sx={{ minWidth: "10em"}}
-              variant="contained"
-            >
-              Save Draft
-            </Button>
-          </Grid>
-          <Grid item xs={12} sm={6} md={6}>
+        <Grid 
+          container 
+          item 
+          sx={{
+            mt: "2em"
+          }}
+        >
+          <Grid item xs={12} sm={12} md={12}>
             <Box
-              sx={{display: "flex", justifyContent: "flex-end"}}
+              sx={{
+                component: "span",
+                display: "flex",
+                justifyContent: "space-between",
+                alignItems: "center"
+              }}
             >
               <Button
+                onClick={handleSaveDraft}
+                sx={{ 
+                  minWidth: "10em"
+                }}
+                variant="contained"
+              >
+                Save Draft
+              </Button>
+              <Button
                 onClick={handlePublishRecipe}
-                sx={{ minWidth: "10em", ml: {sm: ".5em", md: ".5em"}}}
+                sx={{ 
+                  minWidth: "10em", 
+                  ml: {sm: ".5em", md: ".5em"}
+                }}
                 variant="contained"
               >
                 Publish
