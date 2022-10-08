@@ -122,7 +122,6 @@ const MyRecipes = () => {
   const [userRecipes, setUserRecipes] = useState([]);
   const { user } = UserAuth();
 
-  // TODO fix useEffect to re-render recipes when a new one is added
   useEffect(() => {
     const getRecipes = async () => {
       const recipes = await getUserRecipes(user);
@@ -131,7 +130,7 @@ const MyRecipes = () => {
     }
     
     getRecipes();
-  }, [user, user.recipes])
+  }, [user, newRecipeId])
 
   const handleEditClose = () => {
     setOpenEdit(false);
@@ -183,12 +182,6 @@ const MyRecipes = () => {
           recipe={placeholderRecipe} 
         />
       </Box>
-      <Box sx={{mb: ".5em"}}>
-        <RecipeListItem recipe={placeholderRecipe} />
-      </Box>
-      <Box sx={{mb: ".5em"}}>
-        <RecipeListItem recipe={placeholderRecipe} />
-      </Box>
       <RecipeDetails
         fullScreen
         open={openEdit}
@@ -204,6 +197,8 @@ const MyRecipes = () => {
         onClose={handleCreateClose}
         Transition={Transition}
         newRecipeId={newRecipeId}
+        userRecipes={userRecipes}
+        setUserRecipes={setUserRecipes}
       />
     </Container>
   )
