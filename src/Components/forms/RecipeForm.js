@@ -1,13 +1,13 @@
 import { Button, Divider, Grid, TextField, Typography, MenuItem, Select, FormControl, InputLabel } from "@mui/material";
 import { Box, Container } from "@mui/system";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useTheme } from "@emotion/react";
 import Dropzone from "./Dropzone";
 import { updateRecipeDBEntry } from "../../firebasefunctions";
 import { UserAuth } from "../../Contexts/AuthContext";
 
 const RecipeForm = (props) => {
-  const { newRecipeId, setOpenCreate } = props;
+  const { newRecipeId, setOpenCreate, userRecipes, setUserRecipes } = props;
   const [name, setName] = useState("New Recipe");
   const [description, setDescription] = useState("");
   const [cooktime, setCooktime] = useState("");
@@ -18,10 +18,6 @@ const RecipeForm = (props) => {
   const [recipeImageURL, setRecipeImageURL] = useState([]);
   const [recipePreviewImage, setRecipePreviewImage] = useState([]);
   const { user } = UserAuth();
-
-  useEffect(() => {
-    console.log(recipePreviewImage[0]);
-  }, [recipePreviewImage])
 
   const theme = useTheme();
 
@@ -72,13 +68,15 @@ const RecipeForm = (props) => {
       ingredients: ingredients,
       isDraft: isDraft,
       isPublic: !isDraft,
-      thumbnail_url: recipeImageURL || "https://bit.ly/3dSiUZK",
+      thumbnail_url: recipeImageURL[0] || "https://bit.ly/3dSiUZK",
       thumbnial_alt_text: name || "New Recipe"
     }
 
     // Upload to firestore
     try {
       await updateRecipeDBEntry(user, recipe);
+      // Filter out placeholder recipe made when create clicked
+      setUserRecipes([...userRecipes.filter(a => a.id !== recipe.id), recipe]);
     } catch (error) {
       // TODO add snackbar for success and fail
       console.log(error.message);
