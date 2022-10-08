@@ -5,17 +5,19 @@ import { useTheme } from "@emotion/react";
 import Dropzone from "./Dropzone";
 import { updateRecipeDBEntry } from "../../firebasefunctions";
 import { UserAuth } from "../../Contexts/AuthContext";
+import { v4 } from "uuid";
 
 const RecipeForm = (props) => {
   const { newRecipeId, setOpenCreate, userRecipes, setUserRecipes } = props;
   const [name, setName] = useState("New Recipe");
   const [description, setDescription] = useState("");
   const [cooktime, setCooktime] = useState("");
+  const [thumbnailPath, setThumbnailPath] = useState("");
+  const [recipeImageURL, setRecipeImageURL] = useState();
   const [nutritionFacts, setNutritionFacts] = useState([]);
   const [instructions, setInstructions] = useState([{ step: 1, instruction: ""}])
   const [ingredients, setIngredients] = useState([{ amount: 0, measurement: "", name: "", index: 0}])
   const [openDropzone, setOpenDropzone] = useState(false);
-  const [recipeImageURL, setRecipeImageURL] = useState([]);
   const [recipePreviewImage, setRecipePreviewImage] = useState([]);
   const { user } = UserAuth();
 
@@ -63,12 +65,14 @@ const RecipeForm = (props) => {
       id: newRecipeId,
       description: description,
       cooktime: cooktime,
+      key: v4(),
       nutritionFacts: nutritionFacts,
       instructions: instructions,
       ingredients: ingredients,
       isDraft: isDraft,
       isPublic: !isDraft,
-      thumbnail_url: recipeImageURL[0] || "https://bit.ly/3fWdw8J",
+      thumbnail_url: recipeImageURL || "https://bit.ly/3fWdw8J",
+      thumbnail_path: thumbnailPath || null,
       thumbnial_alt_text: name || "New Recipe"
     }
 
@@ -76,7 +80,8 @@ const RecipeForm = (props) => {
     try {
       await updateRecipeDBEntry(user, recipe);
       // Filter out placeholder recipe made when create clicked
-      setUserRecipes([...userRecipes.filter(a => a.id !== recipe.id), recipe]);
+      const filteredRecipes = userRecipes.filter(a => a.id != recipe.id)
+      setUserRecipes([...filteredRecipes, recipe]);
     } catch (error) {
       // TODO add snackbar for success and fail
       console.log(error.message);
@@ -173,6 +178,8 @@ const RecipeForm = (props) => {
                   newRecipeId={newRecipeId}
                   user={user}
                   setRecipeImageURL={setRecipeImageURL}
+                  thumbnailPath={thumbnailPath}
+                  setThumbnailPath={setThumbnailPath}
                 />
               </Box>
           ) : (
