@@ -80,7 +80,7 @@ const RecipeForm = (props) => {
     try {
       await updateRecipeDBEntry(user, recipe);
       // Filter out placeholder recipe made when create clicked
-      const filteredRecipes = userRecipes.filter(a => a.id != recipe.id)
+      const filteredRecipes = userRecipes.filter(a => a.id !== recipe.id)
       setUserRecipes([...filteredRecipes, recipe]);
     } catch (error) {
       // TODO add snackbar for success and fail
