@@ -8,7 +8,7 @@ import { Container } from '@mui/material';
 import RecipeForm from '../forms/RecipeForm';
 
 const RecipeCreate = (props) => {
-  const { open, setOpenCreate, Transition, newRecipeId } = props;
+  const { open, setOpenCreate, Transition, newRecipeId, userRecipes, setUserRecipes } = props;
 
   const handleClose = () => {
     setOpenCreate(false);
@@ -40,6 +40,8 @@ const RecipeCreate = (props) => {
         <RecipeForm
           newRecipeId={newRecipeId}
           setOpenCreate={setOpenCreate}
+          userRecipes={userRecipes}
+          setUserRecipes={setUserRecipes}
         />
       </Container>
     </Dialog>
