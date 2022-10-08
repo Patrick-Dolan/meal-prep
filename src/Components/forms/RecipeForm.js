@@ -68,7 +68,7 @@ const RecipeForm = (props) => {
       ingredients: ingredients,
       isDraft: isDraft,
       isPublic: !isDraft,
-      thumbnail_url: recipeImageURL[0] || "https://bit.ly/3dSiUZK",
+      thumbnail_url: recipeImageURL[0] || "https://bit.ly/3fWdw8J",
       thumbnial_alt_text: name || "New Recipe"
     }
 

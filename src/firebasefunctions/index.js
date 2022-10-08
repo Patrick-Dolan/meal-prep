@@ -42,7 +42,7 @@ export const createRecipeDBEntry = async (user) => {
     key: v4(),
     isDraft: true,
     isPublic: false,
-    thumbnail_url: "https://bit.ly/3dSiUZK",
+    thumbnail_url: "https://bit.ly/3fWdw8J",
     createdAt: serverTimestamp()
   });
 
