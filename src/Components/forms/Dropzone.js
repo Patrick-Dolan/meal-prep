@@ -2,12 +2,12 @@ import { useDropzone } from 'react-dropzone'
 import { Box, Button, Dialog, DialogActions, Typography } from '@mui/material';
 import CloudUploadIcon from '@mui/icons-material/CloudUpload';
 import { useState } from 'react';
-import { ref, uploadBytesResumable, getDownloadURL } from "firebase/storage";
+import { ref, uploadBytesResumable, getDownloadURL, deleteObject } from "firebase/storage";
 import { storage } from '../../firebase';
 import { v4 } from "uuid";
 
 const Dropzone = (props) => {
-  const { user, newRecipeId, setRecipeImageURL, setRecipePreviewImage, openDropzone, setOpenDropzone } = props;
+  const { user, newRecipeId, setRecipeImageURL, setRecipePreviewImage, openDropzone, setOpenDropzone, thumbnailPath, setThumbnailPath } = props;
   const [files, setFiles] = useState([]);
 
   const handleUpload = () => {
@@ -18,8 +18,6 @@ const Dropzone = (props) => {
       console.log(error.message);
     }
     setOpenDropzone(false);
-    // const newFileName = v4() + files[0].name;
-    // console.log(newFileName);
   };
 
   const handleClose = () => {
@@ -28,12 +26,28 @@ const Dropzone = (props) => {
     setOpenDropzone(false);
   };
 
+  const deleteRecipeImage = async () => {
+    try {
+      const storageRef = ref(storage, thumbnailPath);
+
+      // Delete the file
+      deleteObject(storageRef).then(() => {
+        // TODO add success snackbar
+        console.log("Picture deletion successful")
+      }).catch((error) => {
+        // TODO add success snackbar
+        console.log("Picture deletion failed: ", error.message)
+      });
+    } catch (error) {
+      console.log("Delete file error: ", error.message);
+    }
+  }
+
   const uploadRecipePicture = async () => {
-    // Delete old pfp if it exists
-    // if (user.photoPath != null && user.photoURL != null) {
-    //   deleteProfilePicture();
-    //   deleteProfilePictureUserFields();
-    // }
+    // Delete old image if it exists
+    if (thumbnailPath?.length > 0) {
+      deleteRecipeImage();
+    }
 
     const newFileName = v4() + files[0].name;
 
@@ -72,6 +86,7 @@ const Dropzone = (props) => {
       getDownloadURL(uploadTask.snapshot.ref).then((downloadURL) => {
         console.log('File available at', downloadURL);
         setRecipeImageURL(downloadURL);
+        setThumbnailPath(filePath);
       });
     }
     );
