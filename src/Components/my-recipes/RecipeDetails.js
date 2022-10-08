@@ -75,7 +75,7 @@ const RecipeDetails = (props) => {
             <Grid item xs={12} sm={6} md={6}>
             <Typography variant="h5">Ingredients</Typography>
             <Divider />
-              {(recipe?.ingredients) ? (
+              {(recipe?.ingredients && recipe?.ingredients[0].name.length !== 0) ? (
                 <IngredientsTable
                   ingredients={recipe.ingredients}
                 />
@@ -86,7 +86,7 @@ const RecipeDetails = (props) => {
             <Grid item xs={12} sm={6} md={6}>
             <Typography variant="h5">Nutrition Facts</Typography>
             <Divider />
-              {(recipe?.nutritionFacts) ? (
+              {(recipe?.nutritionFacts && recipe?.nutritionFacts.length > 0) ? (
                 <NutritionTable
                   nutrition={recipe.nutritionFacts}
                 />
@@ -102,7 +102,7 @@ const RecipeDetails = (props) => {
           >
             <Typography variant="h5">Instructions</Typography>
             <Divider />
-            {(recipe?.instructions) ? (
+            {(recipe?.instructions && recipe?.instructions[0].instruction.length !== 0) ? (
               recipe?.instructions?.map((instruction) => 
                 <Grid 
                   container 
